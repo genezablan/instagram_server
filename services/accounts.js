@@ -21,7 +21,15 @@ async function findAll(options) {
     return accounts;
 }
 
+
+async function findOne(options) {
+    const accounts = await Accounts.findOne({
+        ...options
+    });
+    return accounts;
+}
 module.exports = {
     findAll,
-    create
+    create,
+    findOne
 }

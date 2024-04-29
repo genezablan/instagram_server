@@ -6,5 +6,6 @@ accounts.route('/')
     .get(AccountsController.getAll)
     .post(AccountsController.create)
     
+accounts.post('/select', AccountsController.select)
 module.exports = accounts
 
