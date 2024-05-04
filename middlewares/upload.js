@@ -3,17 +3,12 @@ const fs = require('fs');
 const path = require('path');
 
 // Configure multer storage and file name
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // limit file size to 5MB
   },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
 });
-
-// Create multer upload instance
-const upload = multer({ storage: storage });
 
 // Custom file upload middleware
 const uploadMiddleware = (req, res, next) => {

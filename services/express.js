@@ -5,6 +5,7 @@ const logger = require('morgan')
 const globalErrorHandler = require("../middlewares/error_handler");
 
 const v1Route = require('../routes/v1/')
+const passport = require('passport');
 
 let server;
 
@@ -15,6 +16,8 @@ const expressService = {
           Loading routes automatically
         */
         server = express();
+        server.use(passport.initialize());
+        require('../controllers/auth');
         server.use(logger('dev'));
         server.use(bodyParser.json());
         server.use(`/v1/`, v1Route)

@@ -19,6 +19,27 @@ async function create(input) {
     return results;
 }
 
+async function findOne(options) {
+    const accounts = await AccountsProfile.findOne({
+        where : { ...options }
+    });
+    return accounts?.dataValues;
+}
+
+async function update(data, condition) {
+    // Change everyone without a last name to "Doe"
+    await AccountsProfile.update(
+            { ...data },
+            {
+            where: {
+                ...condition
+            },
+        },
+    );
+}
+
 module.exports = {
-    create
+    create,
+    findOne,
+    update
 }
