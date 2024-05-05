@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./app.js",
+    "staging": "NODE_ENV=staging node ./app.js",
     "nodemon": "nodemon --trace-warnings ./app.js",
     "migrate:up": "npx sequelize-cli db:migrate"
   },

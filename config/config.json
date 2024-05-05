@@ -9,11 +9,11 @@
       "underscored": true
     }
   },
-  "test": {
-    "username": "root",
-    "password": null,
+  "staging": {
+    "username": "norbit_shared_db",
+    "password": "KvWy1ykBA2PcwcRW3tSy",
     "database": "database_test",
-    "host": "127.0.0.1",
+    "host": "production-2.c96jitmsepp8.ap-southeast-2.rds.amazonaws.com",
     "dialect": "postgres"
   },
   "production": {
