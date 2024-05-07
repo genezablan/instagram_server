@@ -54,26 +54,36 @@ async function get_by_id(req, res, next) {
 
 async function upload(req, res, next) {
     try {   
-        // Handle the uploaded files
-        const files = req.files;
-
         const accounts_id = req.id;
 
 
         const uploaded = await AccountsUploadServices.findAll({ accounts_id });
+       
 
-        const total_photos = +uploaded?.length + +files?.length;
+        AWS.upload(req, res, async (error) => {
+            if(error) {
+                return next(new InternalServerError(error.message))
+            }
 
-        if(total_photos > 5) {
-            return next(new BadRequestError("You can only upload upto 5 photos"))
-        }
+            const files = req.files
 
-        for(let file of files) {
-            const uploadData = await AWS.upload(file);
-            await AccountsUploadServices.create({ filename: uploadData.Location, accounts_id })
-        }
+            const total_photos = +uploaded?.length + +files?.length;
 
-        res.status(200).json({ message: 'File upload successful' });
+            if(total_photos > 5) {
+                return next(new BadRequestError("You can only upload upto 5 photos"))
+            }
+            
+            
+
+            for(let file of files) {
+                await AccountsUploadServices.create({ filename: file.location, accounts_id })
+            }
+
+            res.status(200).json({ message: 'File upload successful' });
+        })
+  
+
+
     }catch(err) {
         next(new InternalServerError(err.message))
     }

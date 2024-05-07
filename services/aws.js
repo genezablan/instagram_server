@@ -1,34 +1,38 @@
-const AWS = require('aws-sdk');
+const aws = require('aws-sdk');
+require('dotenv').config();
+aws.config.update({ region: process.env.AWS_REGION });
+const multerS3 = require('multer-s3');
+const multer = require('multer');
 
-AWS.config.update({
-  accessKeyId: process.env.AMAZON_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AMAZON_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
-});
+const s3 = new aws.S3({ httpOptions: { timeout: 120000 } });
 
-const s3 = new AWS.S3();
+const MIME_TYPE_MAP = {
+  'image/png': 'png',
+  'image/jpeg': 'jpg',
+  'image/jpg': 'jpg',
+};
 
-async function upload(file) {
-  const filename = file.originalname
-  const params = {
-      Bucket:process.env.AMAZON_S3_BUCKET,
-      Key: 'uploads/' + filename,
-      Body:file.buffer,
-    };
-  console.log('Params:', params);
-  
-  let uploadTask = new Promise((resolve, reject) => {
-      s3.upload(params, (err, data) => {
-          if (err) {
-            return reject(err);
-          }
-      
-          resolve(data)
-        });
-  })
+const limits = {
+  files: 5,
+  fileSize: 10 * 1024 * 1024,
+};
 
-  return await uploadTask
-}
+const upload = multer({
+  limits,
+  storage: multerS3({
+    s3,
+  bucket: process.env.AMAZON_S3_BUCKET,
+    metadata: (req, file, cb) => {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: (req, file, cb) => {
+      const name = file.originalname.toLowerCase().split(' ').join('-');
+      const ext = MIME_TYPE_MAP[file.mimetype];
+      cb(null, `${Date.now()}-${name}`);
+    },
+  }),
+}).array('files');
+
 
 module.exports = {
   upload
