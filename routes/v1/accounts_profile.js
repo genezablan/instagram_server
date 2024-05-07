@@ -4,9 +4,11 @@ const accountsProfile = express.Router();
 const uploadMiddleware = require('../../middlewares/upload');
 
 accountsProfile.route('/')
-    .post(AccountsProfileController.create)
+    .post(AccountsProfileController.create);
 
-accountsProfile.post('/upload', uploadMiddleware, AccountsProfileController.upload)
+accountsProfile.post('/upload', uploadMiddleware, AccountsProfileController.upload);
+
+accountsProfile.route('/').get(AccountsProfileController.get_by_id);
 
 module.exports = accountsProfile
 

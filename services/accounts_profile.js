@@ -28,7 +28,7 @@ async function findOne(options) {
 
 async function update(data, condition) {
     // Change everyone without a last name to "Doe"
-    await AccountsProfile.update(
+    return await AccountsProfile.update(
             { ...data },
             {
             where: {

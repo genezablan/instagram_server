@@ -6,9 +6,17 @@ const { BadRequestError, InternalServerError , ValidationError } =  require("../
 
 async function create(req, res, next) {
     try {
-        const body = req.body;
-
-        const results = await AccountsProfileServices.create(body);
+        const accounts_id = req.id;
+        let body = req.body;
+        body.accounts_id = accounts_id;
+        
+        let data = await AccountsProfileServices.findOne({  accounts_id });
+        let results;
+        if(!data) {
+            results = await AccountsProfileServices.create(body);
+        }else {
+            results = await AccountsProfileServices.update(body, { accounts_id });
+        }
 
         return res.status(200).send(results);
     }catch(err) {
@@ -23,6 +31,26 @@ async function create(req, res, next) {
         }
     }
 }
+
+async function get_by_id(req, res, next) {
+    try {
+        const accounts_id = req.id;
+        
+        let data = await AccountsProfileServices.findOne({  accounts_id });
+        return res.status(200).send(data);
+    }catch(err) {
+        console.log('Err:', err?.name);
+        if(err instanceof Joi.ValidationError) {
+            next(new ValidationError(err.message))
+        }else if(err?.name === 'SequelizeUniqueConstraintError') {
+            next(new ValidationError('Account already exists'))
+        }else {
+            console.log(err.message)
+            next(new InternalServerError())
+        }
+    }
+}
+
 
 async function upload(req, res, next) {
     try {   
@@ -54,5 +82,6 @@ async function upload(req, res, next) {
 
 module.exports = {
     create,
-    upload
+    upload,
+    get_by_id
 };
