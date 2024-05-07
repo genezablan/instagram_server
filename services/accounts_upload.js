@@ -17,7 +17,7 @@ async function create(input) {
 
 async function findAll(options) {
     const accounts = await AccountsUpload.findAll({
-        ...options
+        where : { ...options }
     });
     return accounts;
 }
