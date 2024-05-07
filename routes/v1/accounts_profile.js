@@ -7,7 +7,7 @@ accountsProfile.route('/')
     .post(AccountsProfileController.create);
 
 accountsProfile.post('/upload', uploadMiddleware, AccountsProfileController.upload);
-
+accountsProfile.get('/upload', uploadMiddleware, AccountsProfileController.get_upload)
 accountsProfile.route('/').get(AccountsProfileController.get_by_id);
 
 module.exports = accountsProfile

@@ -79,9 +79,24 @@ async function upload(req, res, next) {
     }
 }
 
+async function get_upload(req, res, next) {
+    try {   
+
+        const accounts_id = req.id;
+
+
+        const uploaded = await AccountsUploadServices.findAll({ accounts_id });
+
+        res.status(200).json(uploaded);
+    }catch(err) {
+        next(new InternalServerError(err.message))
+    }
+}
+
 
 module.exports = {
     create,
     upload,
-    get_by_id
+    get_by_id,
+    get_upload
 };
