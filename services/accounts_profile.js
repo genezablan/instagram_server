@@ -3,12 +3,12 @@ const { AccountsProfile, sequelize } = require('../models');
 const { QueryTypes } = sequelize;
 
 const CreateAccountsProfileSchema = Joi.object({
-    name: Joi.string().required(),
-    bio: Joi.string().required(),
-    accounts_id: Joi.number().required(),
-    email: Joi.string().required(),
-    location: Joi.string().required(),
-    instagram_id: Joi.string().required()
+    name: Joi.string(),
+    bio: Joi.string(),
+    accounts_id: Joi.number(),
+    email: Joi.string(),
+    location: Joi.string(),
+    instagram_id: Joi.string()
 })
 
 async function create(input) {
