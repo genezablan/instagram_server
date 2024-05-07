@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     approved: DataTypes.BOOLEAN,
     approver_id: DataTypes.NUMBER
   }, {
+    underscored: true,
     sequelize,
     modelName: 'AccountsProfile',
     tableName: 'accounts_profile',

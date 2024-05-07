@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     accounts_id: DataTypes.NUMBER,
     type: DataTypes.STRING
   }, {
+    underscored: true,
     sequelize,
     modelName: 'AccountsUpload',
     tableName: 'accounts_upload'

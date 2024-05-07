@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     salt: DataTypes.STRING,
     roles: DataTypes.ARRAY(DataTypes.JSON)
   }, {
+    underscored: true,
     sequelize,
     modelName: 'Users',
     tableName: 'users'
