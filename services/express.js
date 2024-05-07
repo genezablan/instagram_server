@@ -6,6 +6,7 @@ const globalErrorHandler = require("../middlewares/error_handler");
 
 const v1Route = require('../routes/v1/')
 const passport = require('passport');
+const cors = require('cors');
 
 let server;
 
@@ -16,6 +17,7 @@ const expressService = {
           Loading routes automatically
         */
         server = express();
+        server.use(cors())
         server.use(passport.initialize());
         require('../controllers/auth');
         server.use(logger('dev'));
