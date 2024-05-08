@@ -59,6 +59,10 @@ async function upload(req, res, next) {
         // Handle the uploaded files
         const files = req.files;
 
+        if(!files || files.length <= 0) {
+            return next(new BadRequestError("Files are empty"))
+        }
+
         const accounts_id = req.id;
 
 
