@@ -6,7 +6,7 @@ const { BadRequestError, InternalServerError , ValidationError } =  require("../
 
 async function create(req, res, next) {
     try {
-        const accounts_id = req.id;
+        let accounts_id = req.id;
         let body = req.body;
         body.accounts_id = accounts_id;
         
@@ -22,7 +22,7 @@ async function create(req, res, next) {
 
         return res.status(200).send(results);
     }catch(err) {
-        console.log('Err:', err?.name);
+        console.log('Err:', err?.stack);
         if(err instanceof Joi.ValidationError) {
             next(new ValidationError(err.message))
         }else if(err?.name === 'SequelizeUniqueConstraintError') {
