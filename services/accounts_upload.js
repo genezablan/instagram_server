@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { AccountsUpload, sequelize } = require('../models');
+const { AccountsUpload, AccountsProfile, sequelize } = require('../models');
 const { QueryTypes } = sequelize;
 
 const CreateAccountsUploadSchema = Joi.object({

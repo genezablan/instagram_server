@@ -61,9 +61,28 @@ async function select(req, res, next) {
 }
 
 
+async function get_by_id(req, res, next) {
+    try {
+        const accounts_id = req.params.id;
+        
+        let data = await AccountsServices.findOne({  accounts_id });
+        return res.status(200).send(data);
+    }catch(err) {
+        console.log('Err:', err?.name);
+        if(err instanceof Joi.ValidationError) {
+            next(new ValidationError(err.message))
+        }else if(err?.name === 'SequelizeUniqueConstraintError') {
+            next(new ValidationError('Account already exists'))
+        }else {
+            console.log(err.message)
+            next(new InternalServerError())
+        }
+    }
+}
 
 module.exports = {
 	getAll,
     create,
-    select
+    select,
+    get_by_id
 };

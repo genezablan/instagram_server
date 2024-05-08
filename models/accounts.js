@@ -16,6 +16,16 @@ module.exports = (sequelize, DataTypes) => {
       //   as: 'accounts_prices',
       //   foreignKey: 'accounts_id'
       // });
+
+      Accounts.hasOne(models.AccountsProfile, {
+        as: 'profile',
+        foreignKey: 'accounts_id'
+      });
+
+      Accounts.hasMany(models.AccountsUpload, {
+        as: 'uploads',
+        foreignKey: 'accounts_id'
+      });
     }
   }
   Accounts.init({
