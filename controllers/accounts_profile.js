@@ -10,6 +10,8 @@ async function create(req, res, next) {
         let body = req.body;
         body.accounts_id = accounts_id;
         
+        delete body.id
+
         let data = await AccountsProfileServices.findOne({  accounts_id });
         let results;
         if(!data) {
