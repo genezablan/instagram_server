@@ -29,7 +29,7 @@ async function findAll(options) {
 
 async function findOne(options) {
     const accounts = await Accounts.findOne({
-        ...options,
+         where : { ...options },
         include: [{
             model: AccountsProfile, as: 'profile'
         },{

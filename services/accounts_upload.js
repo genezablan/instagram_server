@@ -25,7 +25,7 @@ async function findAll(options) {
 
 async function findOne(options) {
     const accounts = await AccountsUpload.findOne({
-        ...options
+        where : { ...options }
     });
     return accounts;
 }

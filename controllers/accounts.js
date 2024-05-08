@@ -65,7 +65,7 @@ async function get_by_id(req, res, next) {
     try {
         const accounts_id = req.params.id;
         
-        let data = await AccountsServices.findOne({  accounts_id });
+        let data = await AccountsServices.findOne({  id: accounts_id });
         return res.status(200).send(data);
     }catch(err) {
         console.log('Err:', err?.name);
