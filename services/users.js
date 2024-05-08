@@ -46,9 +46,9 @@ async function findAll(options) {
 
 async function findOne(options) {
     const accounts = await Users.findOne({
-        ...options
+        where: { ...options }
     });
-    return accounts?.dataValues;
+    return accounts;
 }
 module.exports = {
     findAll,

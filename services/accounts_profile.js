@@ -36,7 +36,7 @@ function prepareParams(options) {
 }
 
 async function create(input) {
-    const value = await CreateAccountsProfileSchema.validateAsync(input)   
+    let value = await CreateAccountsProfileSchema.validateAsync(input)   
     value = prepareParams(value);
     const results = await AccountsProfile.create(value);
 
@@ -47,7 +47,7 @@ async function findOne(options) {
     const accounts = await AccountsProfile.findOne({
         where : { ...options }
     });
-    return accounts?.dataValues;
+    return accounts;
 }
 
 async function update(data, condition) {
