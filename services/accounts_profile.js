@@ -32,6 +32,12 @@ function prepareParams(options) {
     if(options.hasOwnProperty('instagram_id')) {
         output.instagram_id = options.instagram_id
     }
+    if(options.hasOwnProperty('approved')) {
+        output.approved = options.approved
+    }
+    if(options.hasOwnProperty('approver_id')) {
+        output.approver_id = options.approver_id
+    }
     return output
 }
 
