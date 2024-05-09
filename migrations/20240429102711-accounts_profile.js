@@ -12,7 +12,7 @@ module.exports = {
 
     await queryInterface.sequelize.query(
       `
-      CREATE TABLE public.accounts_profile (
+      CREATE TABLE if not exists public.accounts_profile (
         id serial4 NOT NULL,
         bio text NULL,
         accounts_id int4 NOT NULL,

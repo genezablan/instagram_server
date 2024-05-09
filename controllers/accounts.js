@@ -1,12 +1,14 @@
-const AccountsServices = require('../services/accounts')
+const AccountsServices = require('../services/accounts');
+const AccountsProfileService = require('../services/accounts_profile');
+
 const Joi = require('joi');
 const { BadRequestError, InternalServerError , ValidationError } =  require("../utils/api_errors")
 
 const Jwt = require('jsonwebtoken');
 
-function generateAuthToken({ id, name }) {
+function generateAuthToken({ id, name, accounts_id }) {
     const token = Jwt.sign(
-      { id, name },
+      { id, name, accounts_id },
       process.env.JwtPrivate_Pass,
     );
     return token;
@@ -45,11 +47,13 @@ async function select(req, res, next) {
             return next(new ValidationError('Account do not exists'))
         }
 
-        const token = generateAuthToken( { name: results.name, id: results.id })
+        const accountsProfile = await AccountsProfileService.create({ accounts_id: results.id })
+
+        const token = generateAuthToken( { name: results.name, id: accountsProfile.id , accounts_id: results.id })
 
         return res.status(200).send({ token });
     }catch(err) {
-        console.log('Err:', err?.name);
+        console.log('Err:', err);
         if(err instanceof Joi.ValidationError) {
             next(new ValidationError(err.message))
         }else if(err?.name === 'SequelizeUniqueConstraintError') {

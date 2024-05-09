@@ -17,15 +17,12 @@ module.exports = (sequelize, DataTypes) => {
       //   foreignKey: 'accounts_id'
       // });
 
-      Accounts.hasOne(models.AccountsProfile, {
+      Accounts.hasMany(models.AccountsProfile, {
         as: 'profile',
         foreignKey: 'accounts_id'
       });
 
-      Accounts.hasMany(models.AccountsUpload, {
-        as: 'uploads',
-        foreignKey: 'accounts_id'
-      });
+
     }
   }
   Accounts.init({

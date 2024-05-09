@@ -34,11 +34,30 @@ async function create(req, res, next) {
     }
 }
 
+async function get(req, res, next) {
+    try {
+        const accounts_profile_id = req.id;
+        
+        let data = await AccountsProfileServices.findAll({  id: accounts_profile_id });
+        return res.status(200).send(data);
+    }catch(err) {
+        console.log('Err:', err?.name);
+        if(err instanceof Joi.ValidationError) {
+            next(new ValidationError(err.message))
+        }else if(err?.name === 'SequelizeUniqueConstraintError') {
+            next(new ValidationError('Account already exists'))
+        }else {
+            console.log(err.message)
+            next(new InternalServerError())
+        }
+    }
+}
+
 async function get_by_id(req, res, next) {
     try {
-        const accounts_id = req.id;
+        const accounts_profile_id = req.params.id;
         
-        let data = await AccountsProfileServices.findOne({  accounts_id });
+        let data = await AccountsProfileServices.findOne({  id: accounts_profile_id });
         return res.status(200).send(data);
     }catch(err) {
         console.log('Err:', err?.name);
@@ -63,20 +82,11 @@ async function upload(req, res, next) {
             return next(new BadRequestError("Files are empty"))
         }
 
-        const accounts_id = req.id;
-
-
-        const uploaded = await AccountsUploadServices.findAll({ accounts_id });
-
-        const total_photos = +uploaded?.length + +files?.length;
-
-        if(total_photos > 5) {
-            return next(new BadRequestError("You can only upload upto 5 photos"))
-        }
+        const accounts_profile_id = req.id;
 
         for(let file of files) {
             const uploadData = await AWS.upload(file);
-            await AccountsUploadServices.create({ filename: uploadData.Location, accounts_id })
+            await AccountsUploadServices.create({ filename: uploadData.Location, accounts_profile_id })
         }
 
         res.status(200).json({ message: 'File upload successful' });
@@ -88,10 +98,10 @@ async function upload(req, res, next) {
 async function get_upload(req, res, next) {
     try {   
 
-        const accounts_id = req.id;
+        const accounts_profile_id = req.id;
 
 
-        const uploaded = await AccountsUploadServices.findAll({ accounts_id });
+        const uploaded = await AccountsUploadServices.findAll({ accounts_profile_id });
 
         res.status(200).json(uploaded);
     }catch(err) {
@@ -118,5 +128,6 @@ module.exports = {
     upload,
     get_by_id,
     get_upload,
-    get_upload_by_id
+    get_upload_by_id,
+    get
 };

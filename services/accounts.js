@@ -17,27 +17,17 @@ async function create(input) {
 async function findAll(options) {
     const accounts = await Accounts.findAll({
         ...options,
-        include: [{
-            model: AccountsProfile, as: 'profile'
-        },{
-            model: AccountsUpload, as: 'uploads'
-        }]
+        include: [{ all: true, nested: true }]
     });
     return accounts;
 }
 
 
 async function findOne(options) {
-    console.log('Options:', options);
     const accounts = await Accounts.findOne({
          where : { ...options },
-        include: [{
-            model: AccountsProfile, as: 'profile'
-        },{
-            model: AccountsUpload, as: 'uploads'
-        }]
+        include: [{ all: true, nested: true }]
     });
-    console.log('Accounts:', accounts);
     return accounts;
 }
 module.exports = {

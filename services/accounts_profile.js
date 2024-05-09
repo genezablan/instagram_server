@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { AccountsProfile, sequelize } = require('../models');
+const { AccountsProfile, Accounts, sequelize } = require('../models');
 const { QueryTypes } = sequelize;
 
 const CreateAccountsProfileSchema = Joi.object({
@@ -51,7 +51,8 @@ async function create(input) {
 
 async function findOne(options) {
     const accounts = await AccountsProfile.findOne({
-        where : { ...options }
+        where : { ...options },
+        include: [{ all: true, nested: true }]
     });
     return accounts;
 }
@@ -69,8 +70,18 @@ async function update(data, condition) {
     );
 }
 
+async function findAll(options) {
+    const accounts = await AccountsProfile.findAll({
+        ...options,
+        include: [{ all: true, nested: true }]
+    });
+    return accounts;
+}
+
+
 module.exports = {
     create,
     findOne,
-    update
+    update,
+    findAll
 }

@@ -4,7 +4,7 @@ const { QueryTypes } = sequelize;
 
 const CreateAccountsUploadSchema = Joi.object({
     filename: Joi.string().required(),
-    accounts_id: Joi.number().required()
+    accounts_profile_id: Joi.number().required()
 })
 
 async function create(input) {
@@ -25,7 +25,10 @@ async function findAll(options) {
 
 async function findOne(options) {
     const accounts = await AccountsUpload.findOne({
-        where : { ...options }
+        where : { ...options },
+        include: [{
+            model: AccountsUpload, as: 'uploads'
+        }]
     });
     return accounts;
 }

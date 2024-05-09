@@ -11,14 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      AccountsUpload.belongsTo(models.Accounts, {
-        foreignKey: 'accounts_id'
+      AccountsUpload.belongsTo(models.AccountsProfile, {
+        foreignKey: 'accounts_profile_id'
       })
     }
   }
   AccountsUpload.init({
     filename: DataTypes.STRING,
-    accounts_id: DataTypes.NUMBER,
+    accounts_profile_id: DataTypes.NUMBER,
     type: DataTypes.STRING
   }, {
     underscored: true,
