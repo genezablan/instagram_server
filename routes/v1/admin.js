@@ -9,8 +9,9 @@ accounts.route('/approve')
     .post(AdminController.approve)
     
 
-accounts.route('/accounts/upload/:id').get(AccountsProfileController.get_upload_by_id)
 accounts.route('/accounts/:id').get(AccountsController.get_by_id)
+
+accounts.route('/accounts/upload/:id').get(AccountsProfileController.get_upload_by_id)
 
 
 module.exports = accounts
