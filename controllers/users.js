@@ -47,7 +47,7 @@ async function login(req, res, next) {
     
         const payload = {
             username: user.username,
-            id: user._id
+            id: user.id
         }
     
         const token = jwt.sign(payload, process.env.JwtPrivate_Pass, { expiresIn: "1d" })

@@ -28,6 +28,7 @@ async function findAll(options) {
 
 
 async function findOne(options) {
+    console.log('Options:', options);
     const accounts = await Accounts.findOne({
          where : { ...options },
         include: [{
@@ -36,6 +37,7 @@ async function findOne(options) {
             model: AccountsUpload, as: 'uploads'
         }]
     });
+    console.log('Accounts:', accounts);
     return accounts;
 }
 module.exports = {
